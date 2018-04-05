@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_component"
+    tools:context="edu.uta.se1.team6.tapem.Activities.ProfileActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/grey"
+            app:navigationIcon="@drawable/vector_drawable_ic_arrow_back___px"
+            app:title="Profile"
+            app:layout_scrollFlags="enterAlways|scroll"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <RelativeLayout
+            android:id="@+id/masterBody"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/user_info_form"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/formBody"/>
+            <Button
+                android:id="@+id/updateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:background="@drawable/rounded_button_grey"
+                android:text="@string/update"
+                android:layout_below="@id/formBody"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/dark_grey"/>
+
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:background="@drawable/rounded_button_grey"
+                android:text="@string/delete_user"
+                android:layout_below="@id/updateButton"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/red"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_below="@id/updateButton"/>
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

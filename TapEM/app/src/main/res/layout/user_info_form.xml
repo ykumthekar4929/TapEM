@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
+    android:orientation="vertical"
+    android:paddingTop="24dp"
+    android:gravity="center_horizontal"
+    android:padding="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <EditText
+            android:id="@+id/fName_textField"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            style="@style/RoundedTextFields"
+            android:hint="@string/first_name"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:inputType="number" />
+        <EditText
+            android:id="@+id/lName_textField"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            style="@style/RoundedTextFields"
+            android:hint="@string/last_name"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/id_textField"
+        style="@style/RoundedTextFields"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/mav_id"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/birthdaySelector"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        style="@style/RoundedTextFields"
+        android:layout_marginBottom="12dp"
+        android:text="@string/date_placeholder"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:drawablePadding="8dp"
+        android:padding="8dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sex"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            android:paddingStart="8dp"
+            android:layout_weight="3"
+            android:paddingBottom="4dp"/>
+        <RadioGroup
+            android:id="@+id/sexGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/option_male"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/male"
+                android:shadowColor="@color/grey"
+                android:textColor="@color/grey"/>
+            <RadioButton
+                android:id="@+id/option_female"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/female"
+                android:layout_weight="1"
+                android:shadowColor="@color/grey"
+                android:textColor="@color/grey"/>
+        </RadioGroup>
+    </LinearLayout>
+    <Spinner
+        android:id="@+id/typeSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginBottom="8dp"
+        android:spinnerMode="dropdown"
+        android:requiresFadingEdge="horizontal"/>
+
+    <EditText
+        android:id="@+id/password_textField"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        style="@style/RoundedTextFields"
+        android:padding="8dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/new_password_textField"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        style="@style/RoundedTextFields"
+        android:padding="8dp"
+        android:hint="@string/new_password"
+        android:inputType="textPassword"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/conf_password_textField"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        style="@style/RoundedTextFields"
+        android:padding="8dp"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:layout_marginBottom="8dp"/>
+
+
+</LinearLayout>

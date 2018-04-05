@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="edu.uta.se1.team6.tapem.Activities.RegisterActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimaryDark"
+        app:title="@string/register"
+        android:elevation="8dp"
+        app:titleTextColor="#FFFFFF"/>
+
+    <include layout="@layout/user_info_form"
+        android:id="@+id/formBody"
+        android:layout_below="@id/toolBar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:background="@drawable/rounded_button_grey"
+        android:text="@string/register"
+        android:layout_below="@id/formBody"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/dark_grey"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_button"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/already_a_member"
+            android:textSize="14sp"
+            android:layout_marginEnd="4dp"/>
+        <TextView
+            android:id="@+id/signIn_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="@string/sign_in"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

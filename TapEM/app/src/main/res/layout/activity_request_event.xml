@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_component"
+    tools:context="edu.uta.se1.team6.tapem.Activities.MainActivity">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/vector_drawable_ic_arrow_back___px"
+            app:title="Request a new event"
+            android:background="@color/grey"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_grey"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                style="@style/RoundedTextFields"
+                android:hint="@string/title_hint"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/RoundedTextFields"
+                android:minHeight="56dp"
+                android:layout_below="@id/title"
+                android:hint="@string/description"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/venueSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description"
+                android:popupBackground="@drawable/rounded_edittext"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/dateBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/RoundedTextFields"
+                android:minHeight="56dp"
+                android:enabled="false"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_below="@id/venueSpinner"
+                android:hint="@string/date_picker_hint"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:id="@+id/timeSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/dateBox"
+                android:layout_marginBottom="8dp">
+
+                <EditText
+                    android:id="@+id/fromBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    style="@style/RoundedTextFields"
+                    android:hint="@string/from"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:clickable="true"
+                    android:layout_marginEnd="4dp"
+                    android:focusable="true" />
+
+                <EditText
+                    android:id="@+id/toBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    style="@style/RoundedTextFields"
+                    android:hint="@string/to"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:layout_marginStart="4dp"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/meals_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/timeSection"
+                android:text="@string/meals"
+                />
+
+            <CheckBox
+                android:id="@+id/breakfastOption"
+                android:layout_below="@id/meals_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/breakfast"/>
+
+
+            <CheckBox
+                android:id="@+id/lunchOption"
+                android:layout_below="@id/breakfastOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lunch"/>
+
+
+            <CheckBox
+                android:id="@+id/supperOption"
+                android:layout_below="@id/lunchOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/supper"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/foodVenueSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_below="@id/supperOption"
+                style="@style/RoundedTextFields"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/formalityTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/foodVenueSpinner"
+                android:text="@string/meal_formality"/>
+
+            <RadioGroup
+                android:id="@+id/formalitySection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/formalityTitle">
+
+                <RadioButton
+                    android:id="@+id/informalOption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/informal"
+                    android:checked="true"/>
+
+
+                <RadioButton
+                    android:id="@+id/formalOption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/formal"
+                    android:layout_marginBottom="8dp"
+                    android:checked="false"/>
+            </RadioGroup>
+
+
+            <CheckBox
+                android:id="@+id/alcoholOption"
+                android:layout_below="@id/formalitySection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alcohol_option"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/costView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/alcoholOption"
+                android:text="@string/estimated_cost"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+            <Button
+                android:id="@+id/confirmAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm_event"
+                android:layout_below="@id/costView"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="8dp"
+                android:padding="4dp"
+                android:background="@color/colorAccent"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+        </RelativeLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/requestEventButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:text="@string/request_new_event"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:textStyle="bold"/>
+
+</android.support.design.widget.CoordinatorLayout>
