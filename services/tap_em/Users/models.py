@@ -6,8 +6,8 @@ from django.db import models
 # Create your models here.
 class UserModel(models.Model):
 
-    user = models.IntegerField(max_length=100, primary_key=True)
-    mav_id = models.TextField()
+    user_id = models.AutoField(primary_key=True, default=None)
+    mav_id = models.TextField(unique=True, default=None)
     first_name = models.TextField( null=True, blank=True, default=None)
     last_name = models.TextField( null=True, blank=True, default=None)
     role = models.TextField(  null=True)
@@ -15,6 +15,7 @@ class UserModel(models.Model):
     birth_date = models.DateTimeField()
     password = models.TextField()
     email_id = models.TextField()
+    status = models.TextField()
 
     class Meta:
         db_table = 'users'

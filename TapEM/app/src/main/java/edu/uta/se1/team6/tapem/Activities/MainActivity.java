@@ -16,15 +16,23 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.uta.se1.team6.tapem.Adapters.EventAdapter;
+import edu.uta.se1.team6.tapem.Core.CallBack;
 import edu.uta.se1.team6.tapem.Helpers.Utils;
 import edu.uta.se1.team6.tapem.Models.EventDTO;
 import edu.uta.se1.team6.tapem.Models.UserDTO;
 import edu.uta.se1.team6.tapem.R;
+import edu.uta.se1.team6.tapem.Services.GetActiveUsersTask;
+import edu.uta.se1.team6.tapem.Services.GetEventsByStatusTask;
+import edu.uta.se1.team6.tapem.Services.GetEventsTask;
+import edu.uta.se1.team6.tapem.Services.GetRequestedUsersTask;
 
 public class MainActivity extends BaseActivity {
 
@@ -56,18 +64,16 @@ public class MainActivity extends BaseActivity {
         adminPanel = findViewById(R.id.adminPanel);
 
         user = (UserDTO) getIntent().getSerializableExtra(getString(R.string.user_data_key));
-
         configureToolbar();
-
         configureNavMenu();
 
-        if (user.getType().equals(getString(R.string.user_type_admin))) {
+        if (user.getRole().equalsIgnoreCase(getString(R.string.user_type_admin))) {
             renderAdminUI();
-        } else if (user.getType().equals(getString(R.string.user_type_general))) {
+        } else if (user.getRole().equalsIgnoreCase(getString(R.string.user_type_general))) {
             renderGeneralUserUI();
-        } else if (user.getType().equals(getString(R.string.user_type_caterer))) {
+        } else if (user.getRole().equalsIgnoreCase(getString(R.string.user_type_caterer))) {
             renderCatererUI();
-        } else if (user.getType().equals(getString(R.string.user_type_caterer_staff))) {
+        } else if (user.getRole().equalsIgnoreCase(getString(R.string.user_type_caterer_staff))) {
             renderStaffUI();
         }
     }
@@ -86,6 +92,10 @@ public class MainActivity extends BaseActivity {
             }
         });
         TextView logoutButton = navMenu.findViewById(R.id.logoutButton);
+
+        TextView userName = headerview.findViewById(R.id.userName);
+        String user_fullName = user.getFirstName() + " " + user.getLastName();
+        userName.setText(user_fullName);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,20 +122,28 @@ public class MainActivity extends BaseActivity {
         requestEventButton.setVisibility(View.GONE);
         eventsRecycler.setVisibility(View.GONE);
         adminPanel.setVisibility(View.VISIBLE);
-
         newRegsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToUsersList(Utils.getDummyRegs());
+                new GetRequestedUsersTask(new CallBack() {
+                    @Override
+                    public void onCallBack(Object object, String result) {
+                        goToUsersList(new ArrayList<UserDTO>(Arrays.asList((UserDTO[]) object)));
+                    }
+                }).execute();
             }
         });
         browseUsersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToUsersList(Utils.getDummyUsers());
+                new GetActiveUsersTask(new CallBack() {
+                    @Override
+                    public void onCallBack(Object object, String result) {
+                        goToUsersList(new ArrayList<UserDTO>(Arrays.asList((UserDTO[]) object)));
+                    }
+                }).execute();
             }
         });
-
     }
 
     private void renderGeneralUserUI(){
@@ -133,9 +151,19 @@ public class MainActivity extends BaseActivity {
         eventsRecycler.setVisibility(View.VISIBLE);
         adminPanel.setVisibility(View.GONE);
 
-        eventsList = Utils.getDummyEvents();
-        eventsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        eventsRecycler.setAdapter(new EventAdapter(this, eventsList));
+        eventsRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        new GetEventsTask(user.getId(), new CallBack() {
+            @Override
+            public void onCallBack(Object object, String result) {
+                
+                eventsList = (List<EventDTO>) object;
+                eventsRecycler.setAdapter(new EventAdapter(MainActivity.this, eventsList));
+
+                if (eventsList.size() == 0) {
+                    Toast.makeText(MainActivity.this, "No events available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).execute();
 
         requestEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +172,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     private void renderCatererUI(){
@@ -155,14 +184,24 @@ public class MainActivity extends BaseActivity {
         newRegsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToEventsList(Utils.getDummyRequests());
+                new GetEventsByStatusTask("REQUESTED", new CallBack() {
+                    @Override
+                    public void onCallBack(Object object, String result) {
+                        goToEventsList((List<EventDTO>) object);
+                    }
+                }).execute();
             }
         });
         browseUsersBtn.setText(R.string.view_planned_events);
         browseUsersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToEventsList(Utils.getDummyEvents());
+                new GetEventsByStatusTask("ACTIVE", new CallBack() {
+                    @Override
+                    public void onCallBack(Object object, String result) {
+                        goToEventsList((List<EventDTO>) object);
+                    }
+                }).execute();
             }
         });
     }
@@ -171,10 +210,18 @@ public class MainActivity extends BaseActivity {
         requestEventButton.setVisibility(View.GONE);
         eventsRecycler.setVisibility(View.VISIBLE);
         adminPanel.setVisibility(View.GONE);
+        eventsRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
-        eventsList = Utils.getDummyEvents();
-        eventsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        eventsRecycler.setAdapter(new EventAdapter(this, eventsList));
+        new GetEventsByStatusTask("ACTIVE", new CallBack() {
+            @Override
+            public void onCallBack(Object object, String result) {
+                eventsList = (List<EventDTO>) object;
+                eventsRecycler.setAdapter(new EventAdapter(MainActivity.this, eventsList));
+                if (eventsList.size() == 0) {
+                    Toast.makeText(MainActivity.this, "No events available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).execute();
     }
 
     private void goToUsersList(List<UserDTO> usersList) {
@@ -193,7 +240,34 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (eventsRecycler.getVisibility() == View.VISIBLE) {
-            eventsRecycler.getAdapter().notifyDataSetChanged();
+            if (user.getRole().equalsIgnoreCase(getString(R.string.user_type_general))) {
+
+//                new GetEventsTask(user.getId(), new CallBack() {
+//                    @Override
+//                    public void onCallBack(Object object, String result) {
+//                        eventsList = (List<EventDTO>) object;
+//                        eventsRecycler.setAdapter(new EventAdapter(MainActivity.this, eventsList));
+//
+//                    }
+//                }).execute();
+                renderGeneralUserUI();
+
+            } else if (user.getRole().equalsIgnoreCase(getString(R.string.user_type_caterer_staff))){
+                renderStaffUI();
+//                new GetEventsByStatusTask("ACTIVE", new CallBack() {
+//                    @Override
+//                    public void onCallBack(Object object, String result) {
+//                        eventsList = (List<EventDTO>) object;
+//                        eventsRecycler.setVisibility(View.VISIBLE);
+//                        eventsRecycler.setAdapter(new EventAdapter(MainActivity.this, eventsList));
+//                        eventsRecycler.getAdapter().notifyDataSetChanged();
+//                        if (eventsList.size() == 0) {
+//                            Toast.makeText(MainActivity.this, "No events available", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                }).execute();
+
+            }
 
         }
     }

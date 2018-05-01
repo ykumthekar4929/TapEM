@@ -15,7 +15,7 @@ public class VenueModel implements Serializable {
     public VenueModel(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
-        costPerCapacity = 2;
+        this.costPerCapacity = 2;
     }
 
     public String getName() {

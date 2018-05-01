@@ -16,11 +16,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import edu.uta.se1.team6.tapem.Core.CallBack;
 import edu.uta.se1.team6.tapem.Helpers.DialogUtils;
 import edu.uta.se1.team6.tapem.Helpers.Utils;
 import edu.uta.se1.team6.tapem.Models.UserDTO;
 import edu.uta.se1.team6.tapem.R;
+import edu.uta.se1.team6.tapem.Services.DeleteUserTask;
+import edu.uta.se1.team6.tapem.Services.UpdateUserTask;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -31,8 +37,8 @@ public class ProfileActivity extends AppCompatActivity {
     private RadioButton optionMale;
     private RadioButton optionFemale;
     private Spinner typeSpinner;
-    private EditText fName_textField, lName_textField, id_textField, password_textField, new_password_textField, confirm_password_textField;
-    private Button register_button, deleteButton;
+    private EditText fName_textField, lName_textField, id_textField,email_textField, password_textField, new_password_textField, confirm_password_textField;
+    private Button register_button, deleteButton, updateButton;
     private RadioGroup sexGroup;
     private DatePickerDialog birthdayPicker;
 
@@ -56,6 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
         confirm_password_textField = findViewById(R.id.conf_password_textField);
         sexGroup = findViewById(R.id.sexGroup);
         deleteButton = findViewById(R.id.deleteButton);
+        email_textField = findViewById(R.id.email_textField);
+        updateButton = findViewById(R.id.updateButton);
 
         toolBar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.vector_drawable_ic_arrow_back___px));
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -82,7 +90,53 @@ public class ProfileActivity extends AppCompatActivity {
 
         id_textField.setText(user.getMavID());
         id_textField.setEnabled(false);
+        email_textField.setText(user.getEmail_id());
+
+        birthdaySelector.setText(getBirthdayString(user.getBirth_date()));
+
+        if (user.getSex().equals("Male")) {
+            optionMale.setSelected(true);
+            optionMale.toggle();
+
+        } else {
+            optionFemale.setSelected(true);
+            optionFemale.toggle();
+        }
+
         typeSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Utils.getUserTypes()));
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user.setFirstName(fName_textField.getText().toString());
+                user.setLastName(lName_textField.getText().toString());
+                user.setEmail_id(email_textField.getText().toString());
+                user.setEmail_id(email_textField.getText().toString());
+                user.setRole(typeSpinner.getSelectedItem().toString());
+
+                if (optionFemale.isSelected()) {
+                    user.setSex("Female");
+                } else {
+                    user.setSex("Male");
+                }
+
+                new UpdateUserTask(user, new CallBack() {
+                    @Override
+                    public void onCallBack(Object object, String result) {
+                        Toast.makeText(ProfileActivity.this, "Updated profile", Toast.LENGTH_SHORT).show();
+                    }
+                }).execute();
+
+            }
+        });
+    }
+
+    private String getBirthdayString(String birth_date) {
+        String bday = "";
+        DateTime to_dt = new DateTime(user.getBirth_date());
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy MM DD");
+        bday = fmt.print(to_dt);
+        return bday;
 
     }
 
@@ -107,9 +161,13 @@ public class ProfileActivity extends AppCompatActivity {
                 DialogUtils.AlertDialog(ProfileActivity.this, getString(R.string.delete_user_confirm_mesg), new CallBack() {
                     @Override
                     public void onCallBack(Object object, String result) {
-                        Toast.makeText(ProfileActivity.this, "User deleted", Toast.LENGTH_SHORT).show();
-                        finish();
-
+                    new DeleteUserTask(user, new CallBack() {
+                        @Override
+                        public void onCallBack(Object object, String result) {
+                            Toast.makeText(ProfileActivity.this, "User deleted", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }).execute();
                     }
                 });
             }
@@ -126,7 +184,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private boolean isViewingAsAdmin(UserDTO user){
         boolean decs = true;
-        if (user.getType().equals(getString(R.string.user_type_admin))) {
+        if (user.getRole().equalsIgnoreCase(getString(R.string.user_type_admin))) {
             if (user.getMavID().equals(MainActivity.user.getMavID())) {
                 decs = false;
             }

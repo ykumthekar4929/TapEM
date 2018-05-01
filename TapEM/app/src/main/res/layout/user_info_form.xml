@@ -25,7 +25,7 @@
             android:hint="@string/first_name"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:inputType="number" />
+            android:inputType="textPersonName" />
         <EditText
             android:id="@+id/lName_textField"
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:hint="@string/last_name"
             android:layout_weight="1"
             android:layout_marginStart="4dp"
-            android:inputType="number" />
+            android:inputType="textPersonName" />
     </LinearLayout>
 
     <EditText
@@ -46,6 +46,15 @@
         android:layout_marginBottom="8dp"
         android:hint="@string/mav_id"
         android:inputType="number" />
+
+    <EditText
+        android:id="@+id/email_textField"
+        style="@style/RoundedTextFields"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/email_id"
+        android:inputType="textEmailAddress" />
 
     <TextView
         android:id="@+id/birthdaySelector"

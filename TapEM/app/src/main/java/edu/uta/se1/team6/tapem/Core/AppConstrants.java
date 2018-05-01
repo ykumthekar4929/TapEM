@@ -7,7 +7,7 @@ package edu.uta.se1.team6.tapem.Core;
 public interface AppConstrants {
 
     //	String SERVER_BASE_URL = "";
-    String SERVER_BASE_URL = "";
+    String SERVER_BASE_URL = "http://18.236.26.234:8000/";
     String SERVER_POST_URL = SERVER_BASE_URL+"api/";
 
 //	public static final String SERVER_POST_URL = "http://192.168.43.83:8080/GoStickies-b2b/api/";

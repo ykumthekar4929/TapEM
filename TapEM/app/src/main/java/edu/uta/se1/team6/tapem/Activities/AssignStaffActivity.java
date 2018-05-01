@@ -14,12 +14,14 @@ import android.widget.CheckedTextView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.uta.se1.team6.tapem.Core.CallBack;
 import edu.uta.se1.team6.tapem.Helpers.DialogUtils;
-import edu.uta.se1.team6.tapem.Helpers.Utils;
+import edu.uta.se1.team6.tapem.Models.UserDTO;
 import edu.uta.se1.team6.tapem.R;
+import edu.uta.se1.team6.tapem.Services.GetCatererStaffTask;
 
 public class AssignStaffActivity extends BaseActivity {
 
@@ -30,6 +32,7 @@ public class AssignStaffActivity extends BaseActivity {
     private Button assignButton;
     private List<String> assignedRs = new ArrayList<>();
     private List<String> availablesStaff = new ArrayList<>();
+    List<UserDTO> staffs = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,25 +43,26 @@ public class AssignStaffActivity extends BaseActivity {
         staffRecycler = findViewById(R.id.staffRecycler);
         assignButton = findViewById(R.id.assignButton);
         configToolbar();
-        availablesStaff = Utils.getStaff();
-        staffRecycler.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_checked, availablesStaff));
 
-        staffRecycler.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        new GetCatererStaffTask(new CallBack() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckedTextView currentBox = (CheckedTextView) view;
-                currentBox.setChecked(true);
-                assignedRs.add(availablesStaff.get(position));
+            public void onCallBack(Object object, String result) {
+                staffs = new ArrayList<>(Arrays.asList((UserDTO[]) object));
+
+                for (UserDTO model:staffs) {
+                    availablesStaff.add(model.getFirstName() + " " + model.getLastName());
+                }
+                staffRecycler.setAdapter(new ArrayAdapter<String>(AssignStaffActivity.this, android.R.layout.simple_list_item_checked, availablesStaff));
+                staffRecycler.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        CheckedTextView currentBox = (CheckedTextView) view;
+                        currentBox.setChecked(true);
+                        assignedRs.add(availablesStaff.get(position));
+                    }
+                });
             }
-        });
-//        staffRecycler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
+        }).execute();
 
         assignButton.setOnClickListener(new View.OnClickListener() {
             @Override

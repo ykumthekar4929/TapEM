@@ -10,65 +10,50 @@ import edu.uta.se1.team6.tapem.Helpers.RequestStatus;
 
 public class EventDTO extends RequestStatus implements Serializable {
 
-    private String id;
-    private String name;
-    private String address;
-    private String area;
+    private String event;
+    private String title;
+    private String description;
     private String status;
-    private String createdById;
-    private String createdByName;
-    private String createdOn;
-    private String catererUserID;
-    private String catererFirstName;
-    private String catererLastName;
-    private String catererEmail;
-    private String catererMobile;
-    private String city;
-    private String zipcode;
-    private String lat;
-    private String lon;
-    private String imageURL;
+    private String created_by_user;
+    private String created_by_user_name;
+    private String caterer;
+    private String caterer_name;
+    private String caterer_email;
+    private String from_t_stamp;
+    private String to_t_stamp;
+    private String location;
+    private String meals;
+    private String meal_type;
+    private String meal_formality;
+    private boolean serving_alcohol;
+    private int cost;
 
-    public EventDTO(String name, String address, String status, String createdById, String createdByName, String city, String imageURL) {
-        this.name = name;
-        this.address = address;
-        this.status = status;
-        this.createdById = createdById;
-        this.createdByName = createdByName;
-        this.city = city;
-        this.imageURL = imageURL;
+    public EventDTO() {
     }
 
-    public String getId() {
-        return id;
+
+    public String getEvent() {
+        return event;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setEvent(String event) {
+        this.event = event;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getStatus() {
@@ -79,107 +64,107 @@ public class EventDTO extends RequestStatus implements Serializable {
         this.status = status;
     }
 
-    public String getCreatedById() {
-        return createdById;
+    public String getCreated_by_user() {
+        return created_by_user;
     }
 
-    public void setCreatedById(String createdById) {
-        this.createdById = createdById;
+    public void setCreated_by_user(String created_by_user) {
+        this.created_by_user = created_by_user;
     }
 
-    public String getCreatedByName() {
-        return createdByName;
+    public String getCreated_by_user_name() {
+        return created_by_user_name;
     }
 
-    public void setCreatedByName(String createdByName) {
-        this.createdByName = createdByName;
+    public void setCreated_by_user_name(String created_by_user_name) {
+        this.created_by_user_name = created_by_user_name;
     }
 
-    public String getCreatedOn() {
-        return createdOn;
+    public String getCaterer() {
+        return caterer;
     }
 
-    public void setCreatedOn(String createdOn) {
-        this.createdOn = createdOn;
+    public void setCaterer(String caterer) {
+        this.caterer = caterer;
     }
 
-    public String getCatererUserID() {
-        return catererUserID;
+    public String getCaterer_name() {
+        return caterer_name;
     }
 
-    public void setCatererUserID(String catererUserID) {
-        this.catererUserID = catererUserID;
+    public void setCaterer_name(String caterer_name) {
+        this.caterer_name = caterer_name;
     }
 
-    public String getCatererFirstName() {
-        return catererFirstName;
+    public String getFrom_t_stamp() {
+        return from_t_stamp;
     }
 
-    public void setCatererFirstName(String catererFirstName) {
-        this.catererFirstName = catererFirstName;
+    public void setFrom_t_stamp(String from_t_stamp) {
+        this.from_t_stamp = from_t_stamp;
     }
 
-    public String getCatererLastName() {
-        return catererLastName;
+    public String getTo_t_stamp() {
+        return to_t_stamp;
     }
 
-    public void setCatererLastName(String catererLastName) {
-        this.catererLastName = catererLastName;
+    public void setTo_t_stamp(String to_t_stamp) {
+        this.to_t_stamp = to_t_stamp;
     }
 
-    public String getCatererEmail() {
-        return catererEmail;
+    public String getLocation() {
+        return location;
     }
 
-    public void setCatererEmail(String catererEmail) {
-        this.catererEmail = catererEmail;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public String getCatererMobile() {
-        return catererMobile;
+    public String getMeals() {
+        return meals;
     }
 
-    public void setCatererMobile(String catererMobile) {
-        this.catererMobile = catererMobile;
+    public void setMeals(String meals) {
+        this.meals = meals;
     }
 
-    public String getCity() {
-        return city;
+    public String getMeal_type() {
+        return meal_type;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setMeal_type(String meal_type) {
+        this.meal_type = meal_type;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public String getMeal_formality() {
+        return meal_formality;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setMeal_formality(String meal_formality) {
+        this.meal_formality = meal_formality;
     }
 
-    public String getLat() {
-        return lat;
+    public boolean isServing_alcohol() {
+        return serving_alcohol;
     }
 
-    public void setLat(String lat) {
-        this.lat = lat;
+    public void setServing_alcohol(boolean serving_alcohol) {
+        this.serving_alcohol = serving_alcohol;
     }
 
-    public String getLon() {
-        return lon;
+    public int getCost() {
+        return cost;
     }
 
-    public void setLon(String lon) {
-        this.lon = lon;
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getCaterer_email() {
+        return caterer_email;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setCaterer_email(String caterer_email) {
+        this.caterer_email = caterer_email;
     }
 }

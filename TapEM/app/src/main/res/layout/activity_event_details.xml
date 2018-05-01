@@ -95,6 +95,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/capacity"/>
                 <TextView
+                    android:id="@+id/capacityCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100"
@@ -115,6 +116,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/meals_served"/>
                     <TextView
+                        android:id="@+id/meal_types"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Breakfast, Lunch, Dinner"
@@ -128,12 +130,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/food_venue"/>
                     <TextView
+                        android:id="@+id/cuisine"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="American and Italian"
                         android:paddingLeft="8dp"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/alcoholOption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_alcohol"/>
@@ -145,6 +149,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/meal_formality"/>
                     <TextView
+                        android:id="@+id/formalityDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Formal meal will be served"
@@ -165,17 +170,16 @@
                     android:text="@string/caterer_assigned"
                     android:textStyle="bold"/>
                 <TextView
+                    android:id="@+id/catererName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Alex"/>
                 <TextView
+                    android:id="@+id/catererEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="alex@uta.com"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+1 1234512345"/>
+
             </LinearLayout>
             <Button
                 android:id="@+id/cancelAction"

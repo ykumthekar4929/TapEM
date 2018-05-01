@@ -71,12 +71,12 @@
     <string name="user_declined">DECLINED</string>
     <string name="delete_user">Delete user</string>
     <string name="users_list_key">USERS_LIST</string>
-    <string name="user_pending">PENDING</string>
+    <string name="user_pending">REQUESTED</string>
     <string name="decline">Decline</string>
     <string name="is_admin_key">IS_ADMIN</string>
     <string name="delete_user_confirm_mesg">Are you sure you want to delete this user ?</string>
     <string name="user_type_caterer">CATERER</string>
-    <string name="user_type_caterer_staff">STAFF</string>
+    <string name="user_type_caterer_staff">CATERER STAFF</string>
     <string name="event_request_btn_txt">View new event requests</string>
     <string name="view_planned_events">View planned events</string>
     <string name="event_list_data">EVENTS_LIST</string>
@@ -84,6 +84,7 @@
     <string name="event_requested">REQUESTED</string>
     <string name="assign_staff">ASSIGN STAFF</string>
     <string name="available_staff">Available Staff</string>
+    <string name="email_id">Email ID</string>
 
 
 </resources>

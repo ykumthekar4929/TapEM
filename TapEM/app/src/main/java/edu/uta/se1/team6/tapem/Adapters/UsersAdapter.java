@@ -20,6 +20,8 @@ import edu.uta.se1.team6.tapem.Core.CallBack;
 import edu.uta.se1.team6.tapem.Helpers.DialogUtils;
 import edu.uta.se1.team6.tapem.Models.UserDTO;
 import edu.uta.se1.team6.tapem.R;
+import edu.uta.se1.team6.tapem.Services.DeleteUserTask;
+import edu.uta.se1.team6.tapem.Services.UpdateUserTask;
 
 /**
  * Created by yashodhan on 3/25/18.
@@ -48,7 +50,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         final UserDTO currentUser = usersList.get(position);
         holder.userName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
         holder.userMavID.setText(currentUser.getMavID());
-        holder.userType.setText(currentUser.getType());
+        holder.userType.setText(currentUser.getRole());
 
         if (currentUser.getStatus().equals(context.getString(R.string.user_active))) {
             holder.cancelAction.setText(context.getString(R.string.delete_user));
@@ -63,36 +65,56 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
                 }
             });
+
             holder.cancelAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                 DialogUtils.AlertDialog(((Activity) context), context.getString(R.string.delete_user_confirm_mesg), new CallBack() {
                     @Override
                     public void onCallBack(Object object, String result) {
-                        Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
-                        usersList.remove(currentUser);
-                        notifyDataSetChanged();
+                    new DeleteUserTask(currentUser, new CallBack() {
+                        @Override
+                        public void onCallBack(Object object, String result) {
+                            Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
+                            usersList.remove(currentUser);
+                            notifyDataSetChanged();
+                        }
+                    }).execute();
                     }
                 });
                 }
             });
+
         } else if (currentUser.getStatus().equals(context.getString(R.string.user_pending))) {
             holder.approveAction.setText(context.getString(R.string.approve));
             holder.cancelAction.setText(context.getString(R.string.decline));
             holder.approveAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                 currentUser.setStatus(context.getString(R.string.user_active));
                 notifyDataSetChanged();
-                Toast.makeText(context, "User approved", Toast.LENGTH_SHORT).show();
+                new UpdateUserTask(currentUser, new CallBack() {
+                    @Override
+                    public void onCallBack(Object object, String result) {
+                        Toast.makeText(context, "User approved", Toast.LENGTH_SHORT).show();
+
+                    }
+                }).execute();
                 }
             });
             holder.cancelAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                usersList.remove(currentUser);
-                notifyDataSetChanged();
-                Toast.makeText(context, "Approval not granted", Toast.LENGTH_SHORT).show();
+                currentUser.setStatus("DECLINED");
+                new UpdateUserTask(currentUser, new CallBack() {
+                    @Override
+                    public void onCallBack(Object object, String result) {
+                        usersList.remove(currentUser);
+                        Toast.makeText(context, "Approval not granted", Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+                    }
+                }).execute();
                 }
             });
         }

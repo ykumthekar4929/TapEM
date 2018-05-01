@@ -15,6 +15,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -54,7 +58,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final EventDTO current = eventsList.get(position);
         Log.d("Event", "onBindViewHolder: " + current);
-        holder.title.setText(current.getName());
+        holder.title.setText(current.getTitle());
+        holder.description.setText(current.getDescription());
 
         holder.statusMessage.setText(current.getStatus());
 
@@ -66,19 +71,27 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             }
         });
 
-        if (MainActivity.user.getType().equals(context.getString(R.string.user_type_caterer_staff)) || MainActivity.user.getType().equals(context.getString(R.string.user_type_caterer))) {
-            holder.cancelAction.setVisibility(View.GONE);
-        }
+//        if (MainActivity.user.getRole().equalsIgnoreCase(context.getString(R.string.user_type_caterer_staff)) || MainActivity.user.getRole().equals(context.getString(R.string.user_type_caterer))) {
+//            holder.cancelAction.setVisibility(View.GONE);
+//        }
+
         if (Objects.equals(current.getStatus(), context.getString(R.string.event_active))) {
             holder.cancelAction.setVisibility(View.VISIBLE);
             holder.cancelledMessage.setVisibility(View.GONE);
-            if (MainActivity.user.getType().equals(context.getString(R.string.user_type_caterer_staff)) || MainActivity.user.getType().equals(context.getString(R.string.user_type_caterer))) {
+            if (MainActivity.user.getRole().equalsIgnoreCase(context.getString(R.string.user_type_caterer_staff)) || MainActivity.user.getRole().equals(context.getString(R.string.user_type_caterer))) {
                 holder.cancelAction.setVisibility(View.GONE);
             }
-        } else if (current.getStatus().equals(R.string.event_cancelled)){
+        } else if (current.getStatus().equalsIgnoreCase(context.getString(R.string.event_cancelled))){
             holder.cancelAction.setVisibility(View.GONE);
             holder.cancelledMessage.setVisibility(View.VISIBLE);
-            if (MainActivity.user.getType().equals(context.getString(R.string.user_type_caterer_staff)) || MainActivity.user.getType().equals(context.getString(R.string.user_type_caterer))) {
+            if (MainActivity.user.getRole().equalsIgnoreCase(context.getString(R.string.user_type_caterer_staff)) || MainActivity.user.getRole().equals(context.getString(R.string.user_type_caterer))) {
+                holder.cancelAction.setVisibility(View.GONE);
+            }
+        }else if (current.getStatus().equalsIgnoreCase(context.getString(R.string.event_requested))){
+            holder.cancelAction.setVisibility(View.VISIBLE);
+            holder.cancelledMessage.setVisibility(View.GONE);
+            if (MainActivity.user.getRole().equalsIgnoreCase(context.getString(R.string.user_type_caterer_staff))
+                        || MainActivity.user.getRole().equals(context.getString(R.string.user_type_caterer))) {
                 holder.cancelAction.setVisibility(View.GONE);
             }
         }
@@ -97,9 +110,67 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 }
             });
         }
+
+        holder.locationData.setText(current.getLocation());
+        DateTime from_dt = new DateTime(current.getFrom_t_stamp());
+        DateTime to_dt = new DateTime(current.getTo_t_stamp());
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("a");
+        DateTimeFormatter fmt2 = DateTimeFormat.forPattern("M");
+        String month = fmt2.print(from_dt);
+        int date_string = from_dt.getDayOfMonth();
+        int from_string = from_dt.getHourOfDay();
+        String from_a = fmt.print(from_dt);
+        int toString = to_dt.getHourOfDay();
+        String to_a = fmt.print(to_dt);
+        String date_display = getMonthName(month) + " " +date_string + ", "+ from_string + " " + from_a + " to " + toString + " " + to_a;
+        holder.dateData.setText(date_display);
     }
 
+    private String getMonthName(String monthNumber){
 
+        String month = "";
+        switch (Integer.parseInt(monthNumber)) {
+            case 1:
+                month = "Jan";
+                break;
+            case 2:
+                month = "Feb";
+                break;
+            case 3:
+                month = "Mar";
+                break;
+            case 4:
+                month = "Apr";
+                break;
+            case 5:
+                month = "May";
+                break;
+            case 6:
+                month = "Jun";
+                break;
+            case 7:
+                month = "Jul";
+                break;
+            case 8:
+                month = "Aug";
+                break;
+            case 9:
+                month = "Sep";
+                break;
+            case 10:
+                month = "Oct";
+                break;
+            case 11:
+                month = "Nov";
+                break;
+            case 12:
+                month = "Dec";
+                break;
+
+        }
+        return month;
+
+    }
 
     private void goToDetails(EventDTO current) {
         Intent intent = new Intent(context, EventDetailsActivity.class);
